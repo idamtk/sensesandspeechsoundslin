@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Senses and the perception of speech sounds</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Garamond', serif;
+      background: #fff3c2;
+      color: #333;
+      line-height: 1.7;
+    }
+
+    /* ── Header ── */
+    header {
+      background: #fff3c2;
+      color: #333;
+      padding: 3rem 2rem 0rem;
+      text-align: center;
+    }
+
+    header .eyebrow {
+      font-family: 'Glacial Indifference', sans-serif;
+      font-size: 0.75rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: #333;
+      margin-bottom: 0.75rem;
+    }
+
+    header h1 {
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: normal;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.75rem;
+    }
+
+    header p {
+      font-size: 1rem;
+      color: #bbb;
+      max-width: 540px;
+      margin: 0 auto;
+    }
+
+    /* ── Main content wrapper ── */
+    main {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 3rem 2rem 5rem;
+    }
+
+    /* ── Section headings ── */
+    .section-label {
+      font-family: 'Glacial Indifference', sans-serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: #666;
+      margin-bottom: 0.5rem;
+    }
+
+    h2 {
+      font-size: 1.35rem;
+      font-weight: normal;
+      letter-spacing: -0.01em;
+      margin-bottom: 1rem;
+      color: #1a1a1a;
+    }
+
+    p { margin-bottom: 1rem; font-size: 0.97rem; color: #333; }
+
+    /* ── Info cards ── */
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin: 1.5rem 0 2.5rem;
+    }
+
+    .info-card {
+      background: #fff;
+      border: 1px solid #e0dbd0;
+      border-radius: 4px;
+      padding: 1.25rem;
+    }
+
+    .info-card .icon {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .info-card h3 {
+      font-size: 0.85rem;
+      font-weight: bold;
+      font-family: 'Courier New', monospace;
+      letter-spacing: 0.04em;
+      margin-bottom: 0.35rem;
+      color: #1a1a1a;
+    }
+
+    .info-card p {
+      font-size: 0.85rem;
+      color: #666;
+      margin: 0;
+    }
+
+    /* ── Divider ── */
+    .divider {
+      border: none;
+      border-top: 1px solid #666;
+      margin: 3rem 0;
+    }
+
+    /* ── Steps list ── */
+    .steps {
+      list-style: none;
+      padding: 0;
+      margin: 1.25rem 0 2.5rem;
+      counter-reset: steps;
+    }
+
+    .steps li {
+      display: flex;
+      gap: 1rem;
+      padding: 0.85rem 0;
+      border-bottom: 1px solid #666;
+      font-size: 0.93rem;
+      counter-increment: steps;
+      align-items: flex-start;
+    }
+
+    .steps li::before {
+      content: counter(steps, decimal-leading-zero);
+      font-family: 'Glacial Indifference', sans-serif;
+      font-size: 0.75rem;
+      color: #666;
+      min-width: 24px;
+      margin-top: 3px;
+    }
+
+    /* ── Eligibility form ── */
+    .form-card {
+      background: #fff;
+      border: 1px solid #ddd8cc;
+      border-radius: 4px;
+      padding: 2rem 2rem 2rem;
+      margin-top: 1.5rem;
+    }
+    .form-card > *:first-child {
+      margin-top: 0;
+    }
+
+    .checkbox-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+      margin: 0rem 0;
+    }
+
+    .checkbox-label {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      cursor: pointer;
+      font-size: 0.93rem;
+      color: #2a2a2a;
+      line-height: 1.45;
+    }
+
+    input[type="checkbox"] {
+      width: 17px;
+      height: 17px;
+      margin-top: 3px;
+      flex-shrink: 0;
+      accent-color: #1a1a1a;
+      cursor: pointer;
+    }
+
+    .submit-btn {
+      width: 100%;
+      padding: 0.9rem;
+      margin-top: 1.25rem;
+      background: #1a1a1a;
+      color: #fff;
+      border: none;
+      border-radius: 3px;
+      font-size: 0.85rem;
+      font-family: 'Glacial Indifference', sans-serif;
+      letter-spacing: 0.08em;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+
+    .submit-btn:hover { background: #333; }
+
+    /* ── Result messages ── */
+    #result {
+      display: none;
+      margin-top: 1.25rem;
+      padding: 1rem 1.25rem;
+      border-radius: 3px;
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+
+    #result.success {
+      background: #edf7f1;
+      border: 1px solid #aed9be;
+      color: #1a5e33;
+    }
+
+    #result.warning {
+      background: #fffbf0;
+      border: 1px solid #f5d87a;
+      color: #7a5600;
+    }
+
+    #result.error {
+      background: #fdf2f2;
+      border: 1px solid #f0b8b8;
+      color: #861c1c;
+    }
+
+    .result-title {
+      font-family: 'Glacial Indifference', sans-serif;
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      font-weight: bold;
+      margin-bottom: 0.35rem;
+    }
+
+    /* ── Redirect button (shown on success) ── */
+    .redirect-btn {
+      display: block;
+      width: 100%;
+      margin-top: 1rem;
+      padding: 0.9rem;
+      background: #1a5e33;
+      color: #fff;
+      border: none;
+      border-radius: 3px;
+      font-size: 0.85rem;
+      font-family: 'Glacial Indifference', sans-serif;
+      letter-spacing: 0.08em;
+      cursor: pointer;
+      text-align: center;
+      text-decoration: none;
+      transition: background 0.15s;
+    }
+
+    .redirect-btn:hover { background: #236b3c; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <p class="eyebrow">University of Toronto | Department of Italian, Spanish, Portuguese and Latin American Studies</p>
+    <h1>How do different senses affect speech perception?</h1>
+  </header>
+
+  <main>
+    <section aria-labelledby="tak-heading">
+      <h2 id="tak-heading">Thank you for your interest in the experiment! Read more about the experiment and whether you can participate below: </h2>
+    </section>
+
+    <!-- ── About section ── -->
+    <section aria-labelledby="about-heading">
+      <p class="section-label">About the experiment</p>
+      <h2 id="about-heading">What is the experiment about?</h2>
+      <p>
+        The experiment is about what senses affect how we perceive speech. This will be investigated through an experiment where you listen to speech sounds (such as the syllables "sa" and "za") while you at the same time feel a mild vibration or tap on the hand. This can contribute to understanding how we perceive speech and how speech is processed in the brain. 
+      </p>
+      <p>
+        Your participation in the experiment is voluntary. You can at any time before or during the experiment choose to withdraw from the experiment. If you regret your participation, you can withdraw your data up to three months after you have participated in the study. As a participant in the experiment you are anonymous. Your answers will be treated confidentially.
+      </p>
+      <p>
+        The experiment is 45-60 min long. As compensation for your participation in the study you will receive $25. 
+      </p>
+      <p>
+        The experiment has been approved by the Social Sciences, Humanities and Education Research Ethics Board at the University of Toronto (Protocol Reference #00051270)
+      </p>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- ── What does it involve? ── -->
+    <section aria-labelledby="how-heading">
+      <p class="section-label">The process of participating</p>
+      <h2 id="how-heading">How does it work?</h2>
+      <ol class="steps">
+        <li>You answer the questions below to check whether you can participate in the experiment</li>
+        <li>You can book an appointment for the experiment by emailing the provided email address. </li>
+        <li>You show up to our lab for your experiment appointment</li>
+        <li>You receive information about the study and decide whether to participate</li>
+        <li>You will be asked to listen to some sounds and answer whether you have heard them or what you heard. Simultaneously with some of the sounds you will feel a mild vibration or a mild tap on the hand. </li>
+        <li>You will be asked to answer a survey about your language background</li>
+        <li>You will receive $25 as compensation for your particpation</li>
+      </ol>
+    </section>
+
+    <!-- ── Udvælgelseskriterier ── -->
+    <section aria-labelledby="eligibility-heading">
+      <p class="section-label">Selection criteria</p>
+      <h2 id="eligibility-heading">Check if you can participate</h2>
+      <p>
+        Before you can participate, you need to check if you fulfill the criteria for participating in the study. Read the statements below and check them off if they apply to you. Your answers to these questions will not be saved or stored anywhere and will only be used to check whether you can be forwarded to the booking site.
+      </p>
+
+      <div class="form-card">
+
+        <!-- ✅ Wrap checkboxes + button so they can be hidden together -->
+        <div id="form-fields">
+          <div class="checkbox-group">
+            <label class="checkbox-label">
+              <input type="checkbox" id="c1" />
+              I confirm that I am at least 18 years old.
+            </label>
+            <label class="checkbox-label">
+              <input type="checkbox" id="c2" />
+              I confirm that my native language is English.
+            </label>
+            <label class="checkbox-label">
+              <input type="checkbox" id="c3" />
+              I confirm that I do not have an ASD diagnosis or dyslexia.
+            </label>
+            <label class="checkbox-label">
+              <input type="checkbox" id="c4" />
+              I confirm that I want to participate in the study.
+            </label>
+          </div>
+
+          <button class="submit-btn" onclick="checkEligibility()">
+            Check if I can participate →
+          </button>
+        </div>
+
+        <div id="result" role="alert" aria-live="polite"></div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    function checkEligibility() {
+      const c1 = document.getElementById('c1').checked;
+      const c2 = document.getElementById('c2').checked;
+      const c3 = document.getElementById('c3').checked;
+      const c4 = document.getElementById('c4').checked;
+
+      const box    = document.getElementById('result');
+      const fields = document.getElementById('form-fields');
+
+      // ── Nothing selected at all ──
+      if (!c1 && !c2 && !c3 && !c4) {
+        showResult(box, 'warning',
+          'Nothing selected',
+          'Please read each statement and check off the ones that apply to you before you submit your answer.'
+        );
+        return; // leave the form visible so the user can tick boxes
+      }
+
+      // ── All criteria met → hide form, show success + booking button ──
+      if (c1 && c2 && c3 && c4) {
+        fields.style.display = 'none';
+        showResult(box, 'success',
+          'You can participate',
+          'You can participate in the experiment. To book a time for your participation, contact me at <b>ida.krarup@mail.utoronto.ca</b> or  <b>ik@cc.au.dk</b>.',
+          /* bookingUrl */ "mailto:ida.krarup@mail.utoronto.ca?subject=Participation%20in%20experiment&body=Hi%2C%0A%0AI'm%20interested%20in%20participating%20in%20the%20experiment%20about%20how%20different%20senses%20impact%20speech%20perception.%0ADo%20you%20have%20any%20available%20time%20slots%20on%20%5Binsert%20date(s)%20that%20suit(s)%20you%5D%3F%0A%0ABest%2C%0A%5BInsert%20your%20name%5D" // 
+        );
+        return;
+      }
+
+      // ── One or more criteria NOT met → hide form, show specific error ──
+      fields.style.display = 'none';
+
+      if (!c1) {
+        showResult(box, 'error',
+          "Can't participate",
+          'You have to be 18 years old or older to participate. The answers you have given here will not be saved. Thank you for your time and interest.'
+        );
+      } else if (!c2) {
+        showResult(box, 'error',
+          "Can't participate",
+          'You must have English as your native language to participate. The answers you have given here will not be saved. Thank you for your time and interest.'
+        );
+      } else if (!c3) {
+        showResult(box, 'error',
+          "Can't participate",
+          'We are currently not testing participants who have and ASD diagnosis or dyslexia. The answers you have given here will not be saved. Thank you for your time and interest.'
+        );
+      } else if (!c4) {
+        showResult(box, 'error',
+          "Don't want to participate",
+          'You should not participate in the experiment if you do not want to. It is voluntary. The answers you have given here will not be saved. Thank you for your time and interest.'
+        );
+        } else if (!c1 && !c2) {
+        showResult(box, 'error',
+          "Can't participate",
+          'You must be 18 or older and be a native speaker of English to participate. The answers you have given here will not be saved. Thank you for your time and interest..'
+        );
+        } else if (!c1 && !c3) {
+        showResult(box, 'error',
+          "Can't participate",
+          'We are currently only testing people who are 18 or older and do not have an ASD diagnosis or dyslexia.'
+        );
+        } else if (!c1 && !c4) {
+        showResult(box, 'error',
+          "Don't want to participate",
+          'You should not participate in the experiment if you do not want to. It is voluntary. The answers you have given here will not be saved. Thank you for your time and interest.'
+        );
+         } else if (!c2 && !c4) {
+        showResult(box, 'error',
+          "Don't want to participate",
+          'You should not participate in the experiment if you do not want to. It is voluntary. The answers you have given here will not be saved. Thank you for your time and interest.'
+          );
+         } else if (!c3 && !c4) {
+        showResult(box, 'error',
+          "Don't want to participate",
+          'You should not participate in the experiment if you do not want to. It is voluntary. The answers you have given here will not be saved. Thank you for your time and interest.'
+          );
+        } else if (!c2 && !c3) {
+        showResult(box, 'error',
+          "Can't participate",
+          'We are currently only testing native speakers of English who do not have an ASD diagnosis or dyslexia. The answers you have given here will not be saved. Thank you for your time and interest.'
+        );
+        } else if (!c1 && !c2 && !c3) {
+        showResult(box, 'error',
+          "Can't participate",
+          'We are currently only testing native speakers of English, who are 18 or older and who do not have an ASD diagnosis or dyslexia. The answers you have given here will not be saved. Thank you for your time and interest.'
+        );
+        } else if (!c1 && !c2 && !c4) {
+        showResult(box, 'error',
+          "Don't want to participate",
+          'You should not participate in the experiment if you do not want to. It is voluntary. The answers you have given here will not be saved. Thank you for your time and interest.'
+          );
+        } else if (!c1 && !c3 && !c4) {
+        showResult(box, 'error',
+          "Don't want to participate",
+          'You should not participate in the experiment if you do not want to. It is voluntary. The answers you have given here will not be saved. Thank you for your time and interest.'
+          );
+        } else if (!c3 && !c2 && !c4) {
+        showResult(box, 'error',
+          "Don't want to participate",
+          'You should not participate in the experiment if you do not want to. It is voluntary. The answers you have given here will not be saved. Thank you for your time and interest.'
+        );
+      }
+    }
+
+    function showResult(box, type, title, message, bookingUrl) {
+      box.className = type;
+      box.style.display = 'block';
+
+      // Build inner HTML — add a booking button only on success
+      let html = `<div class="result-title">${title}</div>${message}`;
+      if (bookingUrl) {
+        html += `<a class="redirect-btn" href="${bookingUrl}">Send email →</a>`;
+      }
+
+      box.innerHTML = html;
+      box.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+  </script>
+
+</body>
+</html>
